@@ -16,7 +16,7 @@ async function run (epochs,batchSize, modelSavePath){
     console.log('Training labels (shape): '+ trainLabels.shape);
 
     model.summary();
-
+    const validationSplit = 0.15;
     await model.fit(trainImages,trainLabels,{
         epochs,
         batchSize,

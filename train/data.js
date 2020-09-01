@@ -2,8 +2,8 @@ const tf = require("@tensorflow/tfjs-node");
 const fs = require("fs");
 const path = require("path");
 
-const TRAIN_IMAGES_DIR = "../data/train/sculpture";
-const TEST_IMAGES_DIR = "../data/test/sculpture";
+const TRAIN_IMAGES_DIR = '../data/train/painting';
+const TEST_IMAGES_DIR = "../data/test/painting";
 
 function loadImages(dataDir) {
   const images = [];
@@ -13,6 +13,7 @@ function loadImages(dataDir) {
   for (let i = 0; i < files.length; i++) {
     var filePath = path.join(dataDir, files[i]);
     var buffer = fs.readFileSync(filePath);
+    console.log(filePath)
     var imageTensor = tf.node
       .decodeImage(buffer)
       .resizeNearestNeighbor([96, 96])
@@ -21,7 +22,7 @@ function loadImages(dataDir) {
       .expandDims();
     images.push(imageTensor);
 
-    var hasPainting = files[i].toLocaleLowerCase().startsWith('PAINTING');
+    var hasPainting = files[i].toLocaleLowerCase().startsWith('PAINTING_');
     labels.push(hasPainting);
   }
   return [images,labels];
@@ -44,7 +45,8 @@ class PaintingDataset {
     getTrainData(){
         return{
             images :  tf.concat(this.trainData[0]),
-            labels : tf.oneHot(tf.tensor1d(this.trainData[1],"string"),2).toFloat()
+            // labels : tf.oneHot(tf.tensor1d(this.trainData[1],"string"),2).toFloat()
+            labels : tf.oneHot(tf.tensor1d(this.trainData[1],"int32"),2).toFloat()
         }
 
     }
@@ -52,7 +54,8 @@ class PaintingDataset {
     getTestData(){
         return{
             images :  tf.concat(this.testData[0]),
-            labels : tf.oneHot(tf.tensor1d(this.testData[1],"string"),2).toFloat()
+            labels : tf.oneHot(tf.tensor1d(this.trainData[1],"int32"),2).toFloat()
+            // labels : tf.oneHot(tf.tensor1d(this.testData[1],"string"),2).toFloat()
         }
 
     }
