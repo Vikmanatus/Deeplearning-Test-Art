@@ -5,6 +5,10 @@ const path = require("path");
 const TRAIN_IMAGES_DIR = '../data/train/painting';
 const TEST_IMAGES_DIR = "../data/test/painting";
 
+
+// Have to manage like Mr Dittman the naming of the files
+
+// TODO: Create other train folder or try to implement new models in this one
 function loadImages(dataDir) {
   const images = [];
   const labels = [];
