@@ -26,7 +26,7 @@ function loadImages(dataDir) {
       .expandDims();
     images.push(imageTensor);
 
-    var hasPainting = files[i].toLocaleLowerCase().startsWith('PAINTING_');
+    var hasPainting = files[i].toLocaleLowerCase().endsWith("_1.jpeg");
     labels.push(hasPainting);
   }
   return [images,labels];
