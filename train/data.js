@@ -15,6 +15,10 @@ function loadImages(dataDir) {
 
   var files = fs.readdirSync(dataDir);
   for (let i = 0; i < files.length; i++) {
+    if (!files[i].toLocaleLowerCase().endsWith(".jpeg")) {
+        continue;
+      }
+  
     var filePath = path.join(dataDir, files[i]);
     var buffer = fs.readFileSync(filePath);
     console.log(filePath)
@@ -27,7 +31,7 @@ function loadImages(dataDir) {
     images.push(imageTensor);
 
     var hasPainting = files[i].toLocaleLowerCase().endsWith("_1.jpeg");
-    labels.push(hasPainting);
+    labels.push(hasPainting ? 1 : 0);
   }
   return [images,labels];
 }

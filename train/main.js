@@ -24,15 +24,20 @@ async function run (epochs,batchSize, modelSavePath){
     })
 
     const {images: testImages, labels:testLabels} = data.getTestData();
-    const evalOutput = model.evaluate(testImages,testLabels);
+    const evalOutput = model.evaluate(testImages,testLabels).then((response)=>console.log(response)).catch((err)=>console.log(err))
     console.log(
         `\nEvaluation result:\n`+
         ` Loss = ${evalOutput[0].dataSync()[0].toFixed(3)}` +
         `Accuracy = ${evalOutput[1].dataSync()[0].toFixed(3)}`
     )
 
-    await model.save(`file://${modelSavePath}`);
-    console.log(`Saved model to path: ${modelSavePath}`);
+    // await model.save(`file://${modelSavePath}`);
+    // console.log(`Saved model to path: ${modelSavePath}`);
+
+    if (modelSavePath != null) {
+        await model.save(`file://${modelSavePath}`);
+        console.log(`Saved model to path: ${modelSavePath}`);
+      }
 
 
 }
