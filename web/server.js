@@ -5,7 +5,7 @@ const cors = require('cors')
 app.use(cors())
 
 app.use(express.static("./static"));
-app.use("/uploads", express.static("public"));
+app.use("/public", express.static("public"));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.listen(81, function() {
